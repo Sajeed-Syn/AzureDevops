@@ -19,18 +19,5 @@ public class UnitTest1
         // Assert
         Assert.Equal(expected, result);
     }
-    [Fact]
-    public void Test2()
-    {
-        // Arrange
-        int a = -5;
-        int b = 15;
-        int expected = 20;
-
-        // Act
-        int result =Program.Add2Nos(a, b);
-
-        // Assert
-        Assert.Equal(expected, result);
-    }
+    
 }
