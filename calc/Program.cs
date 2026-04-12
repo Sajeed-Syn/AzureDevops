@@ -1,9 +1,17 @@
 ﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
-Console.WriteLine(Add2Nos(10, 20));
-
-int Add2Nos(int a, int b)
+namespace calc;
+public class Program
 {
-    return a + b;
+    public static void Main(string[] args)
+    {
+        Console.WriteLine("Hello, World!");
+        Console.WriteLine(Add2Nos(10, 20));
+    }
+
+    public static int Add2Nos(int a, int b)
+    {
+        return a + b;
+    }
 }
+
 

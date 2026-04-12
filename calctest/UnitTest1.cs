@@ -1,9 +1,10 @@
-using static calctest.Program;
+using  calc;
 
 namespace calctest;
 
 public class UnitTest1
-{
+{ 
+
     [Fact]
     public void Test1()
     {
@@ -13,7 +14,7 @@ public class UnitTest1
         int expected = 30;
 
         // Act
-        int result = Add2Nos(a, b);
+        int result =Program.Add2Nos(a, b);
 
         // Assert
         Assert.Equal(expected, result);
@@ -27,7 +28,7 @@ public class UnitTest1
         int expected = 20;
 
         // Act
-        int result = Add2Nos(a, b);
+        int result =Program.Add2Nos(a, b);
 
         // Assert
         Assert.Equal(expected, result);
