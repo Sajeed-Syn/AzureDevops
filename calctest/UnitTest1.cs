@@ -1,4 +1,4 @@
-using System.Reflection;
+using static calctest.Program;
 
 namespace calctest;
 
