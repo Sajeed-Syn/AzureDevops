@@ -18,7 +18,7 @@ steps:
 - script: dotnet restore
   displayName: Restore
 
-- script: dotnet build --no-restore
+- script: dotnet build 
   displayName: Build
 
 - script: dotnet test --no-build --verbosity normal
