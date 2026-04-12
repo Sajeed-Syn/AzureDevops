@@ -3,21 +3,41 @@
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
 
-trigger:
-- main
-
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: ubuntu-latest
 
-steps:
-- task: UseDotNet@2
-  inputs:
-    packageType: 'sdk'
-    version: '8.x'
+trigger: none
+pr: none 
 
-- script: dotnet test --no-build --verbosity normal
-  displayName: Run Tests
+stages:
 
-- task: PublishTestResults@2
-  inputs:
-    testResultsFiles: '**/*.trx'
+  - stage:
+    displayName: Build .NET application
+    jobs:
+      - job:
+        displayName: build job
+        steps:
+          - task: UseDotNet@2
+            displayName: Use .NET6 to build
+            inputs:
+              version: '6.0.x'
+              includePreviewVersions: true
+          - task: DotNetCoreCLI@2
+            displayName: Building Visual studio solution
+            inputs:
+              command: 'build'
+              projects: '**/*.csproj'
+              arguments: '--configuration debug'
+
+  - stage: 
+    displayName: Run unit tests
+    jobs:
+      - job:
+        displayName: unit tests job
+        steps:
+          - task: DotNetCoreCLI@2
+            displayName: Run Visual studio tests
+            inputs:
+              command: test
+              projects: '**/*Test*/*.csproj'
+              arguments: '--configuration debug'
