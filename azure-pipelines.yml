@@ -1,42 +1,49 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
 trigger:
-  - main
+- main
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: 'windows-latest'
 
-stages:
+variables:
+  buildConfiguration: 'Release'
+  outputFolder: 'D:\Deploy\CalculatorApp'
 
-  - stage:
-    displayName: Build .NET application
-    jobs:
-      - job:
-        displayName: build job
-        steps:
-          - task: UseDotNet@2
-            displayName: Use .NET8 to build
-            inputs:
-              version: '8.x'
-              includePreviewVersions: true
-          - task: DotNetCoreCLI@2
-            displayName: Building Visual studio solution
-            inputs:
-              command: 'build'
-              projects: '**/*.csproj'
-              arguments: '--configuration debug'
+steps:
 
-  - stage: 
-    displayName: Run unit tests
-    jobs:
-      - job:
-        displayName: unit tests job
-        steps:
-          - task: DotNetCoreCLI@2
-            displayName: Run Visual studio tests
-            inputs:
-              command: test
-              projects: '**/*Test*/*.csproj'
-              arguments: '--configuration debug'
+# Checkout code
+- checkout: self
+
+# Install .NET
+- task: UseDotNet@2
+  inputs:
+    packageType: 'sdk'
+    version: '8.x'
+
+# Restore
+- script: dotnet restore
+  displayName: 'Restore'
+
+# Build
+- script: dotnet build --configuration $(buildConfiguration) --no-restore
+  displayName: 'Build'
+
+# Run Unit Tests
+- script: dotnet test --configuration $(buildConfiguration) --no-build --logger "trx"
+  displayName: 'Run Unit Tests'
+
+# Publish Test Results
+- task: PublishTestResults@2
+  inputs:
+    testResultsFiles: '**/*.trx'
+
+# Publish App
+- script: dotnet publish -c $(buildConfiguration) -o $(Build.ArtifactStagingDirectory)
+  displayName: 'Publish'
+
+# Deploy (Copy to Folder)
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(Build.ArtifactStagingDirectory)'
+    Contents: '**'
+    TargetFolder: '$(outputFolder)'
+    OverWrite: true
