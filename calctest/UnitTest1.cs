@@ -11,7 +11,7 @@ public class UnitTest1
         // Arrange
         int a = 10;
         int b = 20;
-        int expected = 30;
+        int expected = 40;
 
         // Act
         int result =Program.Add2Nos(a, b);
