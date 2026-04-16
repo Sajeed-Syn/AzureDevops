@@ -24,7 +24,7 @@ steps:
   displayName: 'Restore'
 
 # Build
-- script: dotnet build --configuration $(buildConfiguration) --no-restore
+- script: dotnet build .
   displayName: 'Build'
 
 # Run Unit Tests
